@@ -803,7 +803,7 @@ bot.add_cog(Items(bot))
 
 
 def read_token():
-	return "ODQ1NzU3NDYwMjk1NDUwNjk1.YKlnAw.9dAo4v34rczqJ5zFYu_TxLyhpjk"
+	return "token here"
 
 
 token = read_token()
