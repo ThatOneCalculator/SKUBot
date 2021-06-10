@@ -495,7 +495,7 @@ class Items(commands.Cog):
 				var = json.load(f)
 				for j in var["skus"]:
 					if int(var["skus"][j]) < 12 and int(var["skus"][j]) != 0:
-						embed.add_field(name=j, value=var["skus"][j])
+						embed.add_field(name=var["name"], value=f'{j}: {var["skus"][j]}')
 		await ctx.send(embed=embed)
 
 	@commands.command()
@@ -509,7 +509,7 @@ class Items(commands.Cog):
 				var = json.load(f)
 				for j in var["skus"]:
 					if int(var["skus"][j]) == 0:
-						embed.description += f'{j}\n'
+						embed.add_field(name=var["name"], value=j)
 		await ctx.send(embed=embed)
 
 	@commands.command()
@@ -571,7 +571,7 @@ class Items(commands.Cog):
 			for i in a:
 				with open(f"skus/{i}", "r") as f:
 					var = json.load(f)
-				if count % 10 == 0 and count != 0:
+				if count % 5 == 0 and count != 0:
 					embedlist.append(embed)
 					embed = discord.Embed(title=f"All SKUs:", color=0x5865F2)
 				count += 1
@@ -599,7 +599,7 @@ class Items(commands.Cog):
 			for i in catlist:
 				with open(f"skus/{i}", "r") as f:
 					var = json.load(f)
-				if count % 10 == 0 and count != 0:
+				if count % 5 == 0 and count != 0:
 					embedlist.append(embed)
 					embed = discord.Embed(title=f"All SKUs:", color=0x5865F2)
 				count += 1
@@ -671,7 +671,7 @@ class Items(commands.Cog):
 					except:
 						return await ctx.send("That's not a number!")
 					try:
-						theid = skus.split("-")[0]
+						theid = sku.split("-")[0]
 						with open(f"skus/{theid}.json", "r") as f:
 							var = json.load(f)
 					except:
@@ -695,7 +695,7 @@ class Items(commands.Cog):
 					except:
 						return await ctx.send("That's not a number!")
 					try:
-						theid = skus.split("-")[0]
+						theid = sku.split("-")[0]
 						with open(f"skus/{theid}.json", "r") as f:
 							var = json.load(f)
 					except:
@@ -706,7 +706,7 @@ class Items(commands.Cog):
 								i = 0
 							else:
 								i = var["skus"][i] - toadd
-							theid = skus.split("-")[0]
+							theid = sku.split("-")[0]
 							with open(f"skus/{theid}.json", "w") as f:
 								json.dump(var, f, indent=4)
 							return await ctx.send("Done!")
@@ -723,7 +723,7 @@ class Items(commands.Cog):
 					except:
 						return await ctx.send("That's not a number!")
 					try:
-						theid = skus.split("-")[0]
+						theid = sku.split("-")[0]
 						with open(f"skus/{theid}.json", "r") as f:
 							var = json.load(f)
 					except:
@@ -731,7 +731,7 @@ class Items(commands.Cog):
 					for i in var["skus"]:
 						if i == sku:
 							i = toadd
-							theid = skus.split("-")[0]
+							theid = sku.split("-")[0]
 							with open(f"skus/{theid}.json", "w") as f:
 								json.dump(var, f, indent=4)
 							return await ctx.send("Done!")
@@ -755,7 +755,7 @@ class Items(commands.Cog):
 					if "No." in categorymsg.component.label:
 						return await ctx.send(embed=discord.Embed(title="Cancelled!", color=0xED4245))
 				try:
-					theid = skus.split("-")[0]
+					theid = sku.split("-")[0]
 					with open(f"skus/{theid}.json", "r") as f:
 						var = json.load(f)
 				except:
@@ -763,7 +763,7 @@ class Items(commands.Cog):
 				for i in var["skus"]:
 					if i == sku:
 						var.pop(i)
-						theid = skus.split("-")[0]
+						theid = sku.split("-")[0]
 						with open(f"skus/{theid}.json", "w") as f:
 							json.dump(var, f, indent=4)
 						return await ctx.send("Done!")
