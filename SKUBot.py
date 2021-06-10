@@ -495,7 +495,7 @@ class Items(commands.Cog):
 				var = json.load(f)
 				for j in var["skus"]:
 					if int(var["skus"][j]) < 12 and int(var["skus"][j]) != 0:
-						embed.add_field(name=f'{j}: {var["skus"][j]}', value="_ _")
+						embed.add_field(name=j, value=var["skus"][j])
 		await ctx.send(embed=embed)
 
 	@commands.command()
@@ -503,13 +503,13 @@ class Items(commands.Cog):
 		"""Checks what SKUs are out of stock"""
 
 		a = os.listdir("skus/")
-		embed = discord.Embed(title="SKUs out of stock", color=0xED4245)
+		embed = discord.Embed(title="SKUs out of stock", description="", color=0xED4245)
 		for i in a:
 			with open(f"skus/{i}", "r") as f:
 				var = json.load(f)
 				for j in var["skus"]:
 					if int(var["skus"][j]) == 0:
-						embed.add_field(name=f'{j}: {var["skus"][j]}', value="_ _")
+						embed.description += f'{j}\n'
 		await ctx.send(embed=embed)
 
 	@commands.command()
