@@ -489,7 +489,7 @@ class Items(commands.Cog):
 		"""Checks what SKUs are below 12"""
 
 		a = os.listdir("skus/")
-		embed = discord.Embed(title="SKUs below 12", description="And above 0" color=0xF5910D)
+		embed = discord.Embed(title="SKUs below 12", description="And above 0", color=0xF5910D)
 		for i in a:
 			with open(f"skus/{i}", "r") as f:
 				var = json.load(f)
