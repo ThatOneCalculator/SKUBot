@@ -58,10 +58,6 @@ ddb = DiscordComponents(bot)
 upsince = datetime.datetime.now()
 url_rx = re.compile(r'https?://(?:www\.)?.+')
 
-latest = 0
-latest = len([name for name in os.listdir('./skus') if os.path.isfile(name)])
-
-
 def generate_sku(itemcode, category, logo, size: None, color: None):
 	category = category.upper()
 	sku = f"{itemcode}-{category}-{logo}"
@@ -300,8 +296,7 @@ class Items(commands.Cog):
 						except:
 							skipped.append(f"{size}")
 						await loading.delete()
-				latest = len([name for name in os.listdir(
-					'./skus') if os.path.isfile(name)])
+				latest = len(os.listdir('skus/'))
 				finalskus = {"name": name, "category": ogcategory, "skus": {}}
 				loading = await ctx.send("<a:loading:846144064805929040>")
 				msg = ""
@@ -380,8 +375,7 @@ class Items(commands.Cog):
 						except:
 							skipped.append(f"{size}")
 						await loading.delete()
-				latest = len([name for name in os.listdir(
-					'./skus') if os.path.isfile(name)])
+				latest = len(os.listdir('skus/'))
 				finalskus = {"name": name, "category": category, "skus": {}}
 				loading = await ctx.send("<a:loading:846144064805929040>")
 				msg = ""
@@ -461,9 +455,8 @@ class Items(commands.Cog):
 							skipped.append(f"{size}/{color}")
 							# skippedmsg = await ctx.send(f"{size}/{color} skipped")
 						await loading.delete()
-			latest = len([name for name in os.listdir(
-				'./skus') if os.path.isfile(name)])
-			finalskus = {"name": name, "skus": {}}
+			latest = len(os.listdir('skus/'))
+			finalskus = {"name": name, "category": category, "skus": {}}
 			loading = await ctx.send("<a:loading:846144064805929040>")
 			msg = ""
 			for i, j in items.items():
@@ -496,28 +489,28 @@ class Items(commands.Cog):
 		"""Checks what SKUs are below 12"""
 
 		a = os.listdir("skus/")
-		msg = "__SKUs below 12:__\n\n"
+		embed = discord.Embed(title="SKUs below 12", description="And above 0" color=0xF5910D)
 		for i in a:
 			with open(f"skus/{i}", "r") as f:
 				var = json.load(f)
 				for j in var["skus"]:
-					if int(var["skus"][j]) < 12:
-						msg += f'{j}: {var["skus"][j]}'
-		await ctx.send(msg)
+					if int(var["skus"][j]) < 12 and int(var["skus"][j]) != 0:
+						embed.add_field(name=f'{j}: {var["skus"][j]}', value="_ _")
+		await ctx.send(embed=embed)
 
 	@commands.command()
-	async def low(self, ctx):
+	async def out(self, ctx):
 		"""Checks what SKUs are out of stock"""
 
 		a = os.listdir("skus/")
-		msg = "__SKUs out of stock:__\n\n"
+		embed = discord.Embed(title="SKUs out of stock", color=0xED4245)
 		for i in a:
 			with open(f"skus/{i}", "r") as f:
 				var = json.load(f)
 				for j in var["skus"]:
 					if int(var["skus"][j]) == 0:
-						msg += f'{j}: {var["skus"][j]}'
-		await ctx.send(msg)
+						embed.add_field(name=f'{j}: {var["skus"][j]}', value="_ _")
+		await ctx.send(embed=embed)
 
 	@commands.command()
 	async def list(self, ctx):
@@ -628,7 +621,7 @@ class Items(commands.Cog):
 		if sku == "":
 			return await ctx.send("Please provide a SKU. Example usage: `!lookup SKU-GOES-HERE`")
 		try:
-			theid = skus.split("-")[0]
+			theid = sku.split("-")[0]
 			with open(f"skus/{theid}.json", "r") as f:
 				var = json.load(f)
 		except:
@@ -803,7 +796,7 @@ bot.add_cog(Items(bot))
 
 
 def read_token():
-	return "token here"
+	return "ODQ1NzU3NDYwMjk1NDUwNjk1.YKlnAw.fyf0ueUb24DxqFH2X11UvxHzovk"
 
 
 token = read_token()
