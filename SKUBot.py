@@ -796,7 +796,9 @@ bot.add_cog(Items(bot))
 
 
 def read_token():
-	return "ODQ1NzU3NDYwMjk1NDUwNjk1.YKlnAw.fyf0ueUb24DxqFH2X11UvxHzovk"
+	with open("token.txt", "r") as f:
+		lines = f.readlines()
+		return lines[0].strip()
 
 
 token = read_token()
