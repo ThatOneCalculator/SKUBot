@@ -678,7 +678,7 @@ class Items(commands.Cog):
 						return await ctx.send("That ID doesn't exist! Looks like you got the SKU wrong.")
 					for i in var["skus"]:
 						if i == sku:
-							i = var["skus"][i] + toadd
+							var["skus"].update({i: var["skus"][i] + toadd})
 							with open(f"skus/{theid}.json", "w") as f:
 								json.dump(var, f, indent=4)
 							return await ctx.send("Done!")
@@ -703,9 +703,9 @@ class Items(commands.Cog):
 					for i in var["skus"]:
 						if i == sku:
 							if var["skus"][i] - toadd < 0:
-								i = 0
+								var["skus"].update({i: 0})
 							else:
-								i = var["skus"][i] - toadd
+								var["skus"].update({i: var["skus"][i] - toadd})
 							theid = sku.split("-")[0]
 							with open(f"skus/{theid}.json", "w") as f:
 								json.dump(var, f, indent=4)
@@ -730,7 +730,7 @@ class Items(commands.Cog):
 						return await ctx.send("That ID doesn't exist! Looks like you got the SKU wrong.")
 					for i in var["skus"]:
 						if i == sku:
-							i = toadd
+							var["skus"].update({i: toadd})
 							theid = sku.split("-")[0]
 							with open(f"skus/{theid}.json", "w") as f:
 								json.dump(var, f, indent=4)
